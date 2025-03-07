@@ -8,6 +8,9 @@ from PyQt5.QtCore import Qt
 from datetime import datetime,timezone
 from weather import SecondWindow
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -97,7 +100,7 @@ class MainWindow(QMainWindow):
         self.line_edits.textChanged.connect(self.searchbar)
         self.citySearchedList.itemClicked.connect(self.selectItem)
         self.citySearchedList.raise_()
-        self.Api_Key =  "81e18a387df39067ab7a17ba7ddd7201"
+        self.Api_Key = os.getenv("API_KEY")
         self.base_url_CityEntered = "http://api.openweathermap.org/geo/1.0/direct?appid=" + self.Api_Key
 
 
@@ -294,7 +297,7 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, "Error", f"Please enter correct city name {self.city_name}!")
             self.line_edits.setFocus() 
             return  
-        API_key = "81e18a387df39067ab7a17ba7ddd7201"
+        API_key = os.getenv("API_KEY")
         url =f"https://api.openweathermap.org/data/2.5/weather?q={self.city_name}&appid={API_key}"
         reponse = requests.get(url)
         if reponse.status_code != 200:

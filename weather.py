@@ -7,6 +7,9 @@ from PyQt5.QtCore import Qt , QBuffer, QByteArray
 from datetime import datetime,timezone
 import numpy as np
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
 class SecondWindow(QMainWindow):
     def __init__(self ,city, main_window ):
         super().__init__()
@@ -88,7 +91,7 @@ class SecondWindow(QMainWindow):
         while not self.city:  
             QMessageBox.warning(self, "Error", f"Please enter correct city name {self.city}!")
             return  
-        API_key = "81e18a387df39067ab7a17ba7ddd7201"
+        API_key = os.getenv("API_KEY")
         url =f"https://api.openweathermap.org/data/2.5/weather?q={self.city}&appid={API_key}"
         reponse = requests.get(url)
         if reponse.status_code != 200:
